@@ -7,6 +7,10 @@ class PuzzleProvider with ChangeNotifier {
   bool _puzzleSolved = false;
   int _emptyCells = 0;
 
+  PuzzleProvider() {
+    loadPuzzle();
+  }
+
   void loadPuzzle() {
     _puzzle = new Puzzle(puzzle: [
       0,

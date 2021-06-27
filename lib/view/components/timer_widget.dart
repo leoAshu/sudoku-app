@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sudoku/utility/constants.dart';
+// import 'package:sudoku/utility/constants.dart';
 import '../../model/timer_provider.dart';
 
 class TimerWidget extends StatefulWidget {
@@ -18,7 +18,8 @@ class _TimerWidgetState extends State<TimerWidget> {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    // return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    return "$twoDigitMinutes:$twoDigitSeconds";
   }
 
   @override
@@ -33,29 +34,25 @@ class _TimerWidgetState extends State<TimerWidget> {
   @override
   Widget build(BuildContext context) {
     _duration = Provider.of<TimerProvider>(context).time;
-    return Card(
-      color: Constants.bgColor,
-      margin: EdgeInsets.all(0),
-      shadowColor: Constants.primaryColor,
-      elevation: 12,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-        decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Constants.primaryColor),
-          // borderRadius: BorderRadius.circular()),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              _printDuration(_duration),
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Constants.primaryColor,
-                  fontWeight: FontWeight.w600),
-            ),
-          ],
-        ),
+    return Container(
+      padding: EdgeInsets.all(0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.access_time,
+            color: Colors.white,
+            size: 30,
+          ),
+          SizedBox(
+            width: 4,
+          ),
+          Text(
+            _printDuration(_duration),
+            style: TextStyle(
+                fontSize: 22, color: Colors.white, fontWeight: FontWeight.w400),
+          ),
+        ],
       ),
     );
   }

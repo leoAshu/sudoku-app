@@ -11,9 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setSystemUIOverlayStyle(
-    // SystemUiOverlayStyle(statusBarColor: Colors.white));
+    //     SystemUiOverlayStyle(statusBarColor: Colors.white));
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarBrightness: Brightness.dark));
+        SystemUiOverlayStyle(statusBarBrightness: Brightness.light));
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => PuzzleProvider()),

@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:sudoku/model/puzzle_provider.dart';
 import 'package:sudoku/model/timer_provider.dart';
 import 'package:sudoku/utility/constants.dart';
-import 'package:sudoku/view/components/header_board.dart';
+import 'package:sudoku/view/components/action_board.dart';
+import 'package:sudoku/view/components/timer_widget.dart';
 import 'components/sudoku_board.dart';
 import 'components/input_board.dart';
 
@@ -33,7 +34,7 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final gridSize = MediaQuery.of(context).size.width - 24;
+    final gridSize = MediaQuery.of(context).size.width - 18;
     final cellSize = gridSize / 9;
     final sectionSize = gridSize / 3;
     _puzzleSolved = Provider.of<PuzzleProvider>(context).isPuzzleSolved;
@@ -44,6 +45,7 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
       },
       child: _puzzleSolved
           ? Scaffold(
+              backgroundColor: Constants.primaryColor,
               body: Center(
                 child: Container(
                   child: Column(
@@ -65,48 +67,60 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
               ),
             )
           : Scaffold(
+              backgroundColor: Constants.primaryColor,
               appBar: AppBar(
+                toolbarHeight: 100,
+                elevation: 0,
+                backgroundColor: Constants.primaryColor,
                 title: Text(
                   'SUDOKU',
                   style: TextStyle(
-                      color: Constants.primaryColor,
+                      color: Constants.secondaryColorAlt,
                       fontSize: 26,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w400,
                       letterSpacing: 1),
                 ),
                 centerTitle: true,
-                actionsIconTheme: IconThemeData(color: Constants.primaryColor),
+                // actionsIconTheme: IconThemeData(color: Colors.white),
                 leading: IconButton(
-                  icon: Icon(Icons.arrow_back_ios_outlined),
+                  icon: Icon(
+                    Icons.arrow_back_ios_outlined,
+                    size: 36,
+                  ),
                   onPressed: _backPressed,
                 ),
-                iconTheme: IconThemeData(color: Constants.primaryColor),
-                // elevation: 0,
-                backgroundColor: Constants.bgColor,
+                iconTheme: IconThemeData(color: Colors.white),
               ),
-              backgroundColor: Constants.bgColor,
               body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    HeaderBoard(
-                      gridSize: gridSize,
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    SudokuBoard(
-                      gridSize: gridSize,
-                      sectionSize: sectionSize,
-                      cellSize: cellSize,
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    InputBoard(
-                      gridSize: gridSize,
-                    ),
-                  ],
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(gradient: Constants.bgGradient),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      TimerWidget(),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      SudokuBoard(
+                        gridSize: gridSize,
+                        sectionSize: sectionSize,
+                        cellSize: cellSize,
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      ActionBoard(
+                        gridSize: gridSize,
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      InputBoard(
+                        gridSize: gridSize,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -28,7 +28,7 @@ class _SudokuBoardState extends State<SudokuBoard> {
     Provider.of<PuzzleProvider>(context, listen: false).setSelectedIndex(idx);
   }
 
-  bool isCellSelected(int index) {
+  bool _isCellSelected(int index) {
     if (this._selectedIndex == -1) return false;
 
     int startIndex = _selectedIndex - _selectedIndex % 9;
@@ -58,7 +58,7 @@ class _SudokuBoardState extends State<SudokuBoard> {
       return false;
   }
 
-  bool isBlockSelected(int index) {
+  bool _isBlockSelected(int index) {
     if (this._selectedIndex == -1) return false;
 
     int startIndex = _selectedIndex - _selectedIndex % 9;
@@ -125,22 +125,21 @@ class _SudokuBoardState extends State<SudokuBoard> {
     }
   }
 
-  Color getTextColor(int index) {
+  bool _isCellActive(index) {
+    return this._selectedIndex == index;
+  }
+
+  Color _getTextColor(int index) {
     if (puzzle[index] != 0)
-      return Constants.secondaryColor;
+      return Colors.black54;
     else {
-      return Constants.primaryColorFaded;
-      // print('Attempt: ${attempt[index]} \nSolution: ${solution[index]}');
-      // if (attempt[index] == solution[index]) {
-      //   return Constants.primaryColorFaded;
-      // } else {
-      //   return Colors.redAccent;
-      // }
+      if (_isCellActive(index)) return Colors.white;
+      return Constants.primaryColorAlt;
     }
   }
 
-  Border getBlockBorder(int index) {
-    BorderSide _side = BorderSide(color: Constants.primaryColor, width: 1);
+  Border _getBlockBorder(int index) {
+    BorderSide _side = BorderSide(color: Constants.primaryColor, width: 1.5);
     Border _border;
     switch (index) {
       case 0:
@@ -156,7 +155,7 @@ class _SudokuBoardState extends State<SudokuBoard> {
         _border = Border(top: _side, bottom: _side, right: _side);
         break;
       case 4:
-        _border = Border.all(color: Constants.primaryColor, width: 1);
+        _border = Border.all(color: Constants.primaryColor, width: 1.5);
         break;
       case 5:
         _border = Border(left: _side, bottom: _side, top: _side);
@@ -174,6 +173,25 @@ class _SudokuBoardState extends State<SudokuBoard> {
     return _border;
   }
 
+  BoxDecoration _getCellDecoration(int index) {
+    if (_isCellActive(index)) {
+      return BoxDecoration(
+          color: Constants.secondaryColor,
+          border: Border.all(color: Constants.secondaryColor, width: 2),
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 6,
+                color: Constants.primaryColorAlt,
+                offset: Offset(0, 6))
+          ]);
+    } else {
+      return BoxDecoration(
+        color: _isCellSelected(index) ? Constants.primaryColorAltFaded : null,
+        border: Border.all(color: Constants.primaryColorFaded, width: 1),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Puzzle puzzleObject = Provider.of<PuzzleProvider>(context).puzzle;
@@ -187,6 +205,7 @@ class _SudokuBoardState extends State<SudokuBoard> {
           color: Constants.bgColor,
           margin: EdgeInsets.all(0),
           shadowColor: Constants.primaryColor,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
           elevation: 12,
           child: Container(
             height: widget.gridSize,
@@ -201,10 +220,10 @@ class _SudokuBoardState extends State<SudokuBoard> {
                       height: widget.sectionSize,
                       width: widget.sectionSize,
                       decoration: BoxDecoration(
-                          color: isBlockSelected(index)
-                              ? Constants.secondaryColorFadedAlt
+                          color: _isBlockSelected(index)
+                              ? Constants.primaryColorAltFaded
                               : null,
-                          border: getBlockBorder(index)));
+                          border: _getBlockBorder(index)));
                 }),
               ),
               // 81 Cells
@@ -218,20 +237,12 @@ class _SudokuBoardState extends State<SudokuBoard> {
                     child: Container(
                       height: widget.cellSize,
                       width: widget.cellSize,
-                      decoration: BoxDecoration(
-                          color: this._selectedIndex == index
-                              ? Constants.primaryColorAltFaded
-                              : isCellSelected(index)
-                                  ? Constants.secondaryColorFadedAlt
-                                  : null,
-                          border: Border.all(
-                              color: Constants.secondaryColorFadedAlt,
-                              width: 1)),
+                      decoration: _getCellDecoration(index),
                       child: Center(
                         child: Text(
                           '${this.attempt[index] != 0 ? this.attempt[index] : ' '}',
                           style: TextStyle(
-                              color: getTextColor(index),
+                              color: _getTextColor(index),
                               fontSize: 24,
                               fontWeight: FontWeight.w600),
                         ),

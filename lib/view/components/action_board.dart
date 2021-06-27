@@ -3,13 +3,13 @@ import 'package:provider/provider.dart';
 import '../../model/puzzle_provider.dart';
 import '../../model/timer_provider.dart';
 import '../../utility/constants.dart';
-import './timer_widget.dart';
-import './custom_alert_dialog.dart';
+import 'timer_widget.dart';
+import 'custom_alert_dialog.dart';
 
-class HeaderBoard extends StatelessWidget {
+class ActionBoard extends StatelessWidget {
   final double gridSize;
 
-  const HeaderBoard({
+  const ActionBoard({
     @required this.gridSize,
   });
 

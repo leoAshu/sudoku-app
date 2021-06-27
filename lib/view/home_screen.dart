@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../utility/constants.dart';
 import '../model/puzzle_provider.dart';
+import './components/bottom_nav_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   void play(BuildContext context) {
@@ -10,43 +13,86 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final topPadding = MediaQuery.of(context).padding.top;
-    final bottomPadding = MediaQuery.of(context).padding.bottom;
-    final contentHeight = MediaQuery.of(context).size.height * 0.7;
     return Scaffold(
       backgroundColor: Constants.primaryColor,
-      body: Container(
-        padding: EdgeInsets.only(top: topPadding, bottom: bottomPadding),
-        child: Center(
-            child: Container(
-          height: contentHeight,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: SafeArea(
+        child: Container(
+          child: Flex(
+            direction: Axis.vertical,
             children: [
-              Text(
-                'SUDOKU',
-                style: TextStyle(
-                    color: Constants.bgColor,
-                    fontSize: 40,
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.bold),
+              Expanded(
+                flex: 8,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: Constants.primaryColorAlt, width: 2)),
+                      gradient: Constants.bgGradient),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 64),
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).padding.top),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'MASTER',
+                            style: TextStyle(
+                                color: Constants.secondaryColorAlt,
+                                fontSize: 32,
+                                letterSpacing: 0,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          Text(
+                            'SUDOKU',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 44,
+                                letterSpacing: 2,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Spacer(),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('puzzle');
+                            },
+                            child: Container(
+                              height: 166,
+                              width: 166,
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                        blurRadius: 100,
+                                        color: Constants.primaryColor,
+                                        offset: Offset(2, 2))
+                                  ],
+                                  border: Border.all(
+                                      color: Colors.white, width: 14),
+                                  color: Colors.transparent,
+                                  shape: BoxShape.circle),
+                              child: Center(
+                                child: Icon(
+                                  Icons.play_arrow_rounded,
+                                  color: Colors.white,
+                                  size: 144,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Spacer(),
+                          Spacer()
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              Column(
-                children: [
-                  Option('Play', Icons.play_arrow, 'puzzle'),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Option('Scan', Icons.camera_alt, 'puzzle'),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Option('Statistics', Icons.bar_chart, 'puzzle')
-                ],
-              )
+              Expanded(flex: 1, child: BottomNav()),
             ],
           ),
-        )),
+        ),
       ),
     );
   }
