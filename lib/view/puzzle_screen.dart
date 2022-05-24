@@ -99,26 +99,30 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       TimerWidget(),
-                      SizedBox(
-                        height: 40,
-                      ),
+                      // SizedBox(
+                      //   height: 40,
+                      // ),
+                      Spacer(),
                       SudokuBoard(
                         gridSize: gridSize,
                         sectionSize: sectionSize,
                         cellSize: cellSize,
                       ),
-                      SizedBox(
-                        height: 40,
-                      ),
+                      // SizedBox(
+                      //   height: 40,
+                      // ),
+                      Spacer(),
                       ActionBoard(
                         gridSize: gridSize,
                       ),
-                      SizedBox(
-                        height: 40,
-                      ),
+                      // SizedBox(
+                      //   height: 40,
+                      // ),
+                      Spacer(),
                       InputBoard(
                         gridSize: gridSize,
                       ),
+                      Spacer(),
                     ],
                   ),
                 ),
